@@ -1,0 +1,10 @@
+## Interface: 50400
+## Title: MetaHud Options (Revived Branch)
+## Previous Title: MetaHud Options (Nuckin Branch)
+## Author: Jaminator77
+## Previous Author: Greg Flynn (Nuckin)
+## Notes: MetaHud Options (Rev 2)
+## Dependencies: MetaHud
+## SavedVariables: MetaHudProfiles
+## LoadOnDemand: 1
+MetaHudOptions.xml

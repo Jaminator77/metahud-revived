@@ -1,0 +1,2529 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+	..\FrameXML\UI.xsd">
+	<Script	file="localisation.en.lua"/>
+	<Script	file="MetaHudOptions.lua"/>
+
+	<Frame name="MetaHud_HeaderTemplate" hidden="false" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" inherits="GameFontHighlight" text="">
+					<Color r="0" g="1" b="0.5"/>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				MetaHudO_Header_OnLoad(self,0,0);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	
+	<CheckButton name="MetaHud_Check_Template" inherits="OptionsCheckButtonTemplate" hidden="false" virtual="true">
+		<HitRectInsets>
+			<AbsInset left="0" right="0" top="0" bottom="0"/>
+		</HitRectInsets>
+		<Size>
+			<AbsDimension x="25" y="25"/>
+		</Size>			
+		<Anchors>
+			<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHudOptionsFrame">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				self.setting_name = string.gsub( self:GetName() , "MetaHud_Check_", "");
+				_G[self:GetName().."Text"]:SetText( " "..MetaHudO_locale[self.setting_name] );
+			</OnLoad>				
+			<OnClick>
+				MetaHud:ToggleConfig(self.setting_name);
+			</OnClick>
+			<OnShow>
+				self:SetChecked(MetaHud:GetConfig(self.setting_name));
+			</OnShow>
+			<OnEnter>
+				GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+				GameTooltip:SetText(MetaHudO_locale[self.setting_name.."_tooltip"], 1, 1, 1, 1);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>					
+		</Scripts>
+	</CheckButton>
+
+	<FontString	name="MetaHud_FontTemplate"	font="Fonts\MORPHEUS.TTF" virtual="true">
+		<FontHeight>
+			<AbsValue val="20"/>
+		</FontHeight>
+		<Shadow>
+			<Offset>
+				<AbsDimension x="1" y="-1"/>
+			</Offset>
+			<Color r="0" g="0" b="0.6"/>
+		</Shadow>
+		<Color r="0" g="1" b="0.5"/>
+	</FontString>
+
+	<Button name="MetaHud_TabButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="80" y="32"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeftDisabled" file="Interface\AddOns\MetaHudOptions\tab1">
+					<Size>
+						<AbsDimension x="12" y="50"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-25"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.20" top="0" bottom="1.0"/>
+				</Texture>
+				<Texture name="$parentMiddleDisabled" file="Interface\AddOns\MetaHudOptions\tab1">
+					<Size>
+						<AbsDimension x="12" y="50"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeftDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+					<TexCoords left="0.20" right="0.80" top="0" bottom="1.0"/>
+				</Texture>
+				<Texture name="$parentRightDisabled" file="Interface\AddOns\MetaHudOptions\tab1">
+					<Size>
+						<AbsDimension x="12" y="50"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentMiddleDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+					<TexCoords left="0.80" right="1.0" top="0" bottom="1.0"/>
+				</Texture>
+				<Texture name="$parentLeft" file="Interface\AddOns\MetaHudOptions\tab2">
+					<Size>
+						<AbsDimension x="12" y="50"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-25"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.20" top="0" bottom="1.0"/>
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\AddOns\MetaHudOptions\tab2">
+					<Size>
+						<AbsDimension x="12" y="50"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+					</Anchors>
+					<TexCoords left="0.20" right="0.80" top="0" bottom="1.0"/>
+				</Texture>
+				<Texture name="$parentRight" file="Interface\AddOns\MetaHudOptions\tab2">
+					<Size>
+						<AbsDimension x="12" y="50"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentMiddle" relativePoint="RIGHT"/>
+					</Anchors>
+					<TexCoords left="0.80" right="1.0" top="0" bottom="1.0"/>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentHighlightText" inherits="GameFontHighlightSmall" hidden="true">
+					<Anchors>
+						<Anchor point="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentDisabledText" inherits="GameFontGreenSmall" hidden="true">
+					<Anchors>
+						<Anchor point="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				_G[self:GetName().."Text"]:SetText(MetaHudO_locale[self:GetName()]);
+				_G[self:GetName().."HighlightText"]:SetText(MetaHudO_locale[self:GetName()]);
+				_G[self:GetName().."DisabledText"]:SetText(MetaHudO_locale[self:GetName()]);
+				PanelTemplates_TabResize(self, 0);
+			</OnLoad>
+			<OnEnter>
+				_G[self:GetName().."Text"]:Hide();
+				_G[self:GetName().."HighlightText"]:Show();
+			</OnEnter>
+			<OnLeave>
+				_G[self:GetName().."Text"]:Show();
+				_G[self:GetName().."HighlightText"]:Hide();
+			</OnLeave>
+			<OnClick>
+				PanelTemplates_SetTab(MetaHudOptionsFrame, self:GetID());
+				for i = 1, MetaHudO_NUMTABS do
+					if i == self:GetID() then
+						_G[self:GetName().."Text"]:Hide();
+						_G[self:GetName().."HighlightText"]:Hide();
+						_G[self:GetName().."DisabledText"]:Show();
+						_G["MetaHud_Tab"..i]:Show();
+					else
+						_G["MetaHudOptionsFrameTab"..i.."Text"]:Show();
+						_G["MetaHudOptionsFrameTab"..i.."HighlightText"]:Hide();
+						_G["MetaHudOptionsFrameTab"..i.."DisabledText"]:Hide();
+						_G["MetaHud_Tab"..i]:Hide();
+					end
+				end
+			</OnClick>
+		</Scripts>
+	</Button>
+<!-- -->
+	<Button name="MetaHud_DecButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="23" y="22"/>
+		</Size>
+		<Anchors>
+			<Anchor point="LEFT" relativeTo="MetaHudOptionsFrame" relativePoint="RIGHT">
+				<Offset><AbsDimension x="1" y="0"/></Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				local parent = self:GetParent();
+				self.setting_name = string.gsub( parent:GetName() , "MetaHud_Pos_", "");
+				self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+			</OnLoad>
+			<OnClick>
+				if(button == "RightButton") then
+					MetaHud:SetConfig(self.setting_name, MetaHud:GetConfig(self.setting_name) - 10);
+				else
+					MetaHud:SetConfig(self.setting_name, MetaHud:GetConfig(self.setting_name) - 1);
+				end
+				local parent = self:GetParent();
+				local text = _G[parent:GetName().."_Minitext"];
+				text:SetText( MetaHud:GetConfig(self.setting_name) );
+				MetaHud:init();
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+		<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+		<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+	</Button>
+
+    <Button name="MetaHud_IncButtonTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="23" y="22"/>
+        </Size>
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="MetaHudOptionsFrame" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="-1" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                local parent = self:GetParent();
+                self.setting_name = string.gsub( parent:GetName() , "MetaHud_Pos_", "");
+                self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+            </OnLoad>
+            <OnClick>
+                if (button == "RightButton") then
+                    MetaHud:SetConfig(self.setting_name, MetaHud:GetConfig(self.setting_name) + 10);
+                else
+                    MetaHud:SetConfig(self.setting_name, MetaHud:GetConfig(self.setting_name) + 1);
+                end
+                local parent = self:GetParent();
+                local text = _G[parent:GetName().."_Minitext"];
+                text:SetText( MetaHud:GetConfig(self.setting_name) );
+                MetaHud:init();
+            </OnClick>
+        </Scripts>
+        <NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+        <PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+        <DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+        <HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+    </Button>
+
+    <EditBox name="MetaHud_MiniTextTemplate" letters="5" historyLines="0" autoFocus="false" virtual="true">
+        <Size>
+            <AbsDimension x="40" y="20"/>
+        </Size>
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="MetaHudOptionsFrame" relativePoint="RIGHT">
+                <Offset>
+                    <AbsDimension x="3" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentLeft" file="Interface\Common\Common-Input-Border">
+                    <Size>
+                        <AbsDimension x="8" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="-5" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+                </Texture>
+                <Texture name="$parentRight" file="Interface\Common\Common-Input-Border">
+                    <Size>
+                        <AbsDimension x="8" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+                </Texture>
+                <Texture name="$parentMiddle" file="Interface\Common\Common-Input-Border">
+                    <Size>
+                        <AbsDimension x="10" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+                    </Anchors>
+                    <TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+                </Texture>
+            </Layer>
+            
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" inherits="GameFontNormalSmall" text="test text">
+                    <Size>
+                        <AbsDimension x="0" y="13"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset>
+                                <AbsDimension x="60" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>	
+            </Layer>
+    
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                local parent = self:GetParent();
+                self.setting_name = string.gsub( parent:GetName() , "MetaHud_Pos_", "");
+                _G[self:GetName().."Text"]:SetText( " "..(MetaHudO_locale[self.setting_name] or "No Locale") );
+                self:SetText( tonumber(MetaHud:GetConfig(self.setting_name)) or 0 );
+                self.oldvalue = self:GetText();
+            </OnLoad>
+            <OnEnterPressed>
+                self:ClearFocus();
+            </OnEnterPressed>
+            <OnEscapePressed>
+                self:ClearFocus();
+            </OnEscapePressed>
+            <OnTextChanged>
+                if self:GetNumber() == self:GetText() then
+                    self.oldvalue = self:GetText();
+                end
+                self:SetText( self:GetNumber() or 0 );
+                MetaHud:SetConfig( self.setting_name, self:GetText() );
+            </OnTextChanged> 
+            <OnEditFocusLost>
+                self:HighlightText(0, 0);
+                MetaHud:init();
+            </OnEditFocusLost>
+            <OnEditFocusGained>
+                self:HighlightText();
+            </OnEditFocusGained>
+        </Scripts>
+        <FontString inherits="ChatFontNormal"/>
+    </EditBox>
+
+	<Frame name="MetaHud_PosTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="200" y="25"/>
+        </Size>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativeTo="MetaHudOptionsFrame" relativePoint="TOPLEFT">
+				<Offset>
+					<AbsDimension x="10" y="-70"/>
+				</Offset>
+            </Anchor>
+        </Anchors>
+		<Frames>
+			<Button name="$parent_DecButton" inherits="MetaHud_DecButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            
+			<EditBox name="$parent_Minitext" inherits="MetaHud_MiniTextTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
+						<Offset>
+							<AbsDimension x="23" y="0"/>
+						</Offset>
+                    </Anchor>
+                </Anchors>
+            </EditBox>
+            
+			<Button name="$parent_IncButton" inherits="MetaHud_IncButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
+						<Offset>
+							<AbsDimension x="60" y="0"/>
+						</Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+       </Frames>
+   </Frame>
+
+	<Frame name="MetaHud_DropdownTemplate" inherits="UIDropDownMenuTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="128" y="16"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentLabel" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="21" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				UIDropDownMenu_Initialize(self, MetaHudO_DropDown_Initialize);
+			</OnLoad>
+			<OnEnter>
+				if ( self.tooltipText ) then
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+					GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Frame>
+
+	<Frame name="MetaHud_Dropdown_Template" virtual="true">
+		<Size>
+			<AbsDimension	x="130"	y="18" />
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AddOns\MetaHudOptions\goldedge">
+					<Anchors>
+						<Anchor	point="TOPLEFT">
+							<Offset>
+								<AbsDimension	x="0"	y="0"/>
+							</Offset>
+						</Anchor>
+						<Anchor	point="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension	x="0"	y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>	
+				</Texture>				
+			</Layer>
+			<Layer level="ARTWORK">	
+				<Texture>
+					<Anchors>
+						<Anchor	point="TOPLEFT">
+							<Offset>
+								<AbsDimension	x="1"	y="-1"/>
+							</Offset>
+						</Anchor>
+						<Anchor	point="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension	x="-1" y="1"/>
+							</Offset>
+						</Anchor>
+					</Anchors>					
+					<Color r="0.0" g="0.0" b="0.0" a="0.9"/>
+				</Texture>											
+				<FontString name="$parentText" font="Fonts\FRIZQT__.TTF">
+					<Anchors>
+						<Anchor	point="LEFT">
+							<Offset>
+								<AbsDimension	x="5"	y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Color r="1" g="1" b="1"/>
+					<FontHeight>
+						<AbsValue val="11"/>
+					</FontHeight>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentMenu" inherits="UIDropDownMenuTemplate"></Frame>	
+			<Button name="$parentButton">
+				<Size>
+					<AbsDimension	x="22" y="22" />
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT">
+						<Offset><AbsDimension x="2" y="0"/></Offset>
+					</Anchor>
+				</Anchors> 
+				<NormalTexture name="$parentNormalTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Up">
+					<Size>
+						<AbsDimension x="22" y="22"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</NormalTexture>
+				<PushedTexture name="$parentPushedTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Down">
+					<Size>
+						<AbsDimension x="22" y="22"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</PushedTexture>
+				<DisabledTexture name="$parentDisabledTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Disabled">
+					<Size>
+						<AbsDimension x="22" y="22"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</DisabledTexture>
+				<HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD">
+					<Size>
+						<AbsDimension x="22" y="22"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</HighlightTexture>
+				<Scripts>
+					<OnClick>
+						if(self:GetParent():GetID() == 1) then
+							ToggleDropDownMenu(1, 1, MetaHud_selectprofileMenu, "MetaHud_selectprofile", 0, 1);
+						end
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+
+    <Frame name="MetaHud_Edit_Template" virtual="true">
+        <Size>
+            <AbsDimension x="517" y="46"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_textText" relativePoint="TOPLEFT">
+                <Offset><AbsDimension x="10" y="-25"/></Offset>
+            </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+            <BackgroundInsets>
+                <AbsInset left="3" right="22" top="6" bottom="6" />
+            </BackgroundInsets>
+            <TileSize>
+                <AbsValue val="16" />
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="9" />
+            </EdgeSize>
+        </Backdrop>
+        <Frames>
+            <ScrollFrame name="$parentScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                <Size>
+                    <AbsDimension x="482" y="33"/>
+                </Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="8" y="-7"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+                <ScrollChild>
+                
+                    <EditBox name="$parentText" multiLine="true" letters="255" autoFocus="false" enableMouse="true">
+                        <Size>
+                            <AbsDimension x="482" y="33"/>
+                        </Size>
+                        <Scripts>
+                            <OnTextChanged>
+				local parent = self:GetParent();
+                                local scrollBar = _G[parent:GetName().."ScrollBar"]
+                                parent:UpdateScrollChildRect();
+                                local min, max = scrollBar:GetMinMaxValues();
+                                if ( max > 0 and (self.max ~= max) ) then
+                                    self.max = max;
+                                    scrollBar:SetValue(max);
+                                end
+                            </OnTextChanged>
+                            <OnEscapePressed>
+                                self:ClearFocus();
+                            </OnEscapePressed>
+                            <OnEditFocusGained>
+                                MetaHudHelpFrame:Show();
+                            </OnEditFocusGained>
+                            <OnEditFocusLost>
+                                local parent = self:GetParent();
+                                local name = string.gsub( parent:GetParent():GetName() , "MetaHud_Edit_", "");
+                                local dropdown = _G["MetaHud_Edit_"..name.."_Selection"];
+                                MetaHud:SetConfig( name , self:GetText() );
+                                
+                                UIDropDownMenu_SetSelectedID( dropdown, 1 );
+                                UIDropDownMenu_SetText(dropdown, MetaHudO_SELECTION[name]["table"][1]);
+                                
+                                for key, str in pairs(MetaHudO_SELECTION[name]["values"]) do
+                                    if MetaHud:GetConfig(name) == str then
+                                        UIDropDownMenu_SetSelectedID( dropdown, key );
+                                        droptext = MetaHudO_SELECTION[name]["table"][key];
+                                        UIDropDownMenu_SetText(dropdown, droptext);
+                                    end
+                                end
+                                
+                                MetaHud:init();
+                                MetaHudO_updateTexts(name);
+                                MetaHudHelpFrame:Hide();
+                            </OnEditFocusLost>
+                        </Scripts>
+			<FontString font="Fonts\ARIALN.TTF">
+				<Color r="1" g="1" b="1"/>
+				<FontHeight>
+					<AbsValue val="12"/>
+				</FontHeight>
+			</FontString>
+                    </EditBox>
+                    
+                </ScrollChild>
+            </ScrollFrame>
+            
+            <Button name="$parentClicker">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="-80" y="-8"/>
+                        </Offset>
+                    </Anchor>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+                        <Offset>
+                            <AbsDimension x="-8" y="8"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        _G[self:GetParent():GetName().."ScrollFrameText"]:SetFocus();
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Frame name="$parent_Selection" inherits="MetaHud_DropdownTemplate" hidden="false">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent">
+                        <Offset>
+                            <AbsDimension x="-10" y="-15"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Frame>
+    
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self:SetBackdropColor(.1,.1,.1,1);
+                self.setting_name = string.gsub( self:GetName() , "MetaHud_Edit_", "");
+            </OnLoad>
+            <OnShow>
+                local droptext;
+                local dropdown = _G[self:GetName().."_Selection"];
+                
+                local label = _G[self:GetName().."_SelectionLabel"];
+                label:SetText(MetaHudO_locale[self.setting_name] or "no Locale");
+                
+                local box = _G[self:GetName().."ScrollFrameText"];
+                box:SetText( MetaHud:GetConfig(self.setting_name) );
+
+                local tipptext = MetaHudO_SELECTION[self.setting_name]["ttt"];
+                dropdown.tooltipText = tipptext;
+                
+                UIDropDownMenu_SetSelectedID( dropdown, 1 );
+                UIDropDownMenu_SetText(dropdown, MetaHudO_SELECTION[self.setting_name]["table"][1]);
+                
+                for key, str in pairs(MetaHudO_SELECTION[self.setting_name]["values"]) do
+                    if MetaHud:GetConfig(self.setting_name) == str then
+                        UIDropDownMenu_SetSelectedID( dropdown, key );
+                        droptext = MetaHudO_SELECTION[self.setting_name]["table"][key];
+                        UIDropDownMenu_SetText(dropdown, droptext);
+                    end
+                end
+
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+    <Slider name="MetaHud_Slider_Template" inherits="OptionsSliderTemplate" hidden="false" virtual="true">
+        <Size><AbsDimension x="135" y="16"/></Size>	
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
+                <Offset><AbsDimension x="0" y="0"/></Offset>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                MetaHudO_FrameSlider_OnLoad(self, 1, 2, 1 );
+            </OnLoad>
+            <OnShow>
+                MetaHudO_FrameSlider_OnShow(self, self.setting_name , (MetaHudO_locale[self.setting_name] or "") );
+            </OnShow>
+            <OnValueChanged>
+                MetaHudO_FrameSlider_OnValueChanged(self, self.setting_name, (MetaHudO_locale[self.setting_name] or "") );
+            </OnValueChanged>
+            <OnEnter>
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+                GameTooltip:SetText((MetaHudO_locale[self.setting_name.."_tooltip"] or ""), 1, 1, 1, 1);
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>			    
+        </Scripts>
+    </Slider>		
+    
+ 	<CheckButton name="MetaHud_SwitchButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentText" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT">
+							<Offset>
+								<AbsDimension x="1" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnShow>
+				self.setting_name = string.gsub( self:GetName() , "MetaHud_", "");
+				_G[self:GetName().."Text"]:SetText( " "..MetaHudO_locale[self.setting_name] );
+			</OnShow>				
+			<OnClick>
+				MetaHud_SwitchButton_OnClick(self, button);
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\Buttons\UI-RadioButton">
+			<TexCoords left="0" right="0.25" top="0" bottom="1"/>
+		</NormalTexture>
+		<HighlightTexture file="Interface\Buttons\UI-RadioButton" alphaMode="ADD">
+			<TexCoords left="0.5" right="0.75" top="0" bottom="1"/>
+		</HighlightTexture>
+		<CheckedTexture file="Interface\Buttons\UI-RadioButton">
+			<TexCoords left="0.25" right="0.5" top="0" bottom="1"/>
+		</CheckedTexture>
+	</CheckButton>   
+ 
+    <Frame name="MetaHud_Colorbox_Template" virtual="true"> 
+        <Size> 
+            <AbsDimension x="540" y="20"/> 
+        </Size> 
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                <Offset><AbsDimension x="110" y="-25"/></Offset>
+            </Anchor>
+        </Anchors> 
+        
+        <Layers> 
+            <Layer level="BACKGROUND"> 
+                <FontString name="$parentText" inherits="GameFontNormalSmall" justifyH="LEFT" text="Player Health"> 
+                    <Size> 
+                        <AbsDimension x="150" y="16"/> 
+                    </Size> 
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="LEFT">
+                            <Offset><AbsDimension x="-100" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString> 
+            </Layer> 
+        </Layers>    
+                            
+        <Frames>
+
+        	<Button name="$parent1">
+        		<Size>
+        			<AbsDimension x="20" y="20"/>
+        		</Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors> 
+        		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+        			<EdgeSize>
+        				<AbsValue val="8"/>
+        			</EdgeSize>
+        		</Backdrop>
+                <Layers>
+                <Layer level="ARTWORK">
+                <Texture name="$parentTexture">
+                	<Size><AbsDimension y="15" x="15"/></Size>
+                	<Anchors><Anchor point="CENTER"></Anchor></Anchors>
+                </Texture>
+                </Layer>
+                </Layers>
+        		<Scripts>
+        			<OnClick>
+                        MetaHudO_ColorPicker_OnClick(self, 1);
+        			</OnClick>
+        		</Scripts>
+        		<HighlightTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"></HighlightTexture>
+        	</Button>
+
+        	<Button name="$parent2">
+        		<Size>
+        			<AbsDimension x="20" y="20"/>
+        		</Size>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors> 
+        		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+        			<EdgeSize>
+        				<AbsValue val="8"/>
+        			</EdgeSize>
+        		</Backdrop>
+                <Layers>
+                <Layer level="ARTWORK">
+                <Texture name="$parentTexture">
+                	<Size><AbsDimension y="15" x="15"/></Size>
+                	<Anchors><Anchor point="CENTER"></Anchor></Anchors>
+                </Texture>
+                </Layer>
+                </Layers>
+        		<Scripts>
+        			<OnClick>
+                        MetaHudO_ColorPicker_OnClick(self, 2);
+        			</OnClick>
+        		</Scripts>
+        		<HighlightTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"></HighlightTexture>
+        	</Button>
+
+        	<Button name="$parent3">
+        		<Size>
+        			<AbsDimension x="20" y="20"/>
+        		</Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors> 
+        		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+        			<EdgeSize>
+        				<AbsValue val="8"/>
+        			</EdgeSize>
+        		</Backdrop>
+                <Layers>
+                <Layer level="ARTWORK">
+                <Texture name="$parentTexture">
+                	<Size><AbsDimension y="15" x="15"/></Size>
+                	<Anchors><Anchor point="CENTER"></Anchor></Anchors>
+                </Texture>
+                </Layer>
+                </Layers>
+        		<Scripts>
+        			<OnClick>
+                        MetaHudO_ColorPicker_OnClick(self, 3);
+        			</OnClick>
+        		</Scripts>
+        		<HighlightTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"></HighlightTexture>
+        	</Button>
+        	
+        	<Frame name="$parentG1">
+                <Size> 
+                    <AbsDimension x="50" y="10"/> 
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent1" relativePoint="RIGHT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                    <Anchor point="RIGHT" relativeTo="$parent2" relativePoint="LEFT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers> 
+                    <Layer level="BACKGROUND"> 
+                        <Texture name="$parentTexture" file="Interface\ChatFrame\ChatFrameBackground"/> 
+                    </Layer>
+                </Layers>
+        	</Frame>
+
+        	<Frame name="$parentG2">
+                <Size> 
+                    <AbsDimension x="50" y="10"/> 
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parent2" relativePoint="RIGHT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                    <Anchor point="RIGHT" relativeTo="$parent3" relativePoint="LEFT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers> 
+                    <Layer level="BACKGROUND"> 
+                        <Texture name="$parentTexture" file="Interface\ChatFrame\ChatFrameBackground"/> 
+                    </Layer>
+                </Layers>
+        	</Frame>                        	
+        	                        
+        </Frames>
+        <Scripts> 
+            <OnLoad>
+                self.setting_name = string.gsub( self:GetName() , "MetaHud_Colorbox_", "");
+                _G[self:GetName().."Text"]:SetText( " "..(MetaHudO_locale[self.setting_name] or self.setting_name) );
+            </OnLoad>
+            <OnShow>
+                MetaHudO_changeG(self.setting_name);
+            </OnShow> 
+        </Scripts> 
+    </Frame>  
+ 
+	
+    <!-- options frame -->
+	<Frame name="MetaHudOptionsFrame" toplevel="true" parent="UIParent" enableMouse="true" movable="true" hidden="true">
+		<Size>
+			<AbsDimension x="700" y="520"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="4" right="4" top="4" bottom="4" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="16" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentLogo" file="Interface\AddOns\MetaHud\Layout\Icon">
+					<Size>
+						<AbsDimension x="20" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="10" y="-10"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture file="Interface\ChatFrame\ChatFrameBackground">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="5" y="-5"/>
+							</Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+							<Offset>
+								<AbsDimension x="-5" y="-50"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Gradient orientation="VERTICAL">
+						<MinColor r="0.1" g="0.1" b="0.1" a="0"/>
+						<MaxColor r=".25" g=".25" b=".25" a="1"/>
+					</Gradient>
+				</Texture>
+				<Texture file="Interface\ChatFrame\ChatFrameBackground">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="5" y="50"/>
+							</Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="-5" y="5"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Gradient orientation="VERTICAL">
+						<MinColor r=".20" g=".20" b=".20" a="1"/>
+						<MaxColor r="0.1" g="0.1" b="0.1" a="0"/>
+						
+					</Gradient>
+				</Texture>
+			</Layer>
+            <!-- Version text -->
+			<Layer level="ARTWORK">
+				<FontString name="$parentText1" inherits="MetaHud_FontTemplate" text="METAHUD_NAME">
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="-10"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentText2" inherits="GameFontNormalSmall" text="METAHUD_VERSION">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+							<Offset>
+								<AbsDimension x="-20" y="-45"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Color r="0" g="1" b="0.5"/>
+				</FontString>
+			</Layer>
+            <!-- Tabline -->
+            <Layer level="BORDER">
+                <Texture name="$parentLine" file="Interface\AddOns\MetaHudOptions\line">
+                    <Size>
+                        <AbsDimension x="256" y="64"/>
+                    </Size>
+        			<Anchors>
+        				<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"><Offset><AbsDimension x="5" y="-30"/></Offset></Anchor>
+        				<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT"><Offset><AbsDimension x="-5" y="-30"/></Offset></Anchor>
+        			</Anchors>
+                    <TexCoords left="0" right="1" top="0" bottom="1"/>
+                </Texture>
+            </Layer>			
+		</Layers>
+
+		<Frames>
+		    <!-- Close Button -->
+			<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			
+			<!-- Page 1 -->
+			<Frame name="MetaHud_Tab1" hidden="false" >	
+			<Frames>
+
+				<Frame name="MetaHud_Header_blizzard" inherits="MetaHud_HeaderTemplate">    
+					<Scripts><OnLoad>
+						MetaHudO_Header_OnLoad(self,10,-65);
+					</OnLoad></Scripts>
+				</Frame>
+				<CheckButton name="MetaHud_Check_bplayer" inherits="MetaHud_Check_Template">	
+					<Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_blizzardText">
+						<Offset><AbsDimension x="10" y="-25"/></Offset>
+					</Anchor></Anchors>
+				</CheckButton>
+                    <CheckButton name="MetaHud_Check_btarget" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_bplayer">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+                    <Frame name="MetaHud_Header_alpha" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-220);
+                        </OnLoad></Scripts>
+                    </Frame>
+					<!-- slider oocalpha -->
+                    <Slider name="MetaHud_Slider_oocalpha" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_alphaText">
+                            <Offset><AbsDimension x="10" y="-30"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 0 , 1 , 0.1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+ 
+                    <!-- slider combatalpha -->
+                    <Slider name="MetaHud_Slider_combatalpha" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_oocalpha">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 0 , 1 , 0.1 );
+                        </OnLoad></Scripts>
+                    </Slider>                      
+
+                    <!-- slider selectalpha -->
+                    <Slider name="MetaHud_Slider_selectalpha" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_combatalpha">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 0 , 1 , 0.1 );
+                        </OnLoad></Scripts>
+                    </Slider>  
+                    
+                   <!-- slider regenalpha -->
+                    <Slider name="MetaHud_Slider_regenalpha" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_selectalpha">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 0 , 1 , 0.1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+                    <Frame name="MetaHud_Header_bar" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,190,-65);
+                        </OnLoad></Scripts>
+                    </Frame>
+                    <CheckButton name="MetaHud_Check_animatebars" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_barText">
+                                <Offset><AbsDimension x="10" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+                    <CheckButton name="MetaHud_Check_barborders" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_animatebars">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="MetaHud_Check_showflash" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_barborders">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+                    <CheckButton name="MetaHud_Check_textalpha" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showflash">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+
+					<Frame name="MetaHud_Header_layouttyp" inherits="MetaHud_HeaderTemplate">    
+						<Scripts>
+							<OnLoad>MetaHudO_Header_OnLoad(self,190,-260);</OnLoad>
+						</Scripts>
+					</Frame>
+					<CheckButton name="MetaHud_layouttyp1" inherits="MetaHud_SwitchButtonTemplate" id="1">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_Header_layouttypText" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="10" y="-25"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_layouttyp2" inherits="MetaHud_SwitchButtonTemplate" id="2">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_layouttyp1" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-25"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					
+					<Frame name="MetaHud_Header_GeneralScale" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-405);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<Slider name="MetaHud_Slider_scale" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_GeneralScaleText">
+                            <Offset><AbsDimension x="10" y="-30"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 0.2 , 2, 0.1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Frame name="MetaHud_Header_offsets" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,190,-405);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<Frame name="MetaHud_Pos_xoffset" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_offsetsText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="10" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+                    
+                    <Frame name="MetaHud_Pos_yoffset" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_offsetsText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="152" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+					
+					<Frame name="MetaHud_Pos_hudspacing" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_xoffset" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>  
+					
+					<Frame name="MetaHud_Header_texturefile" inherits="MetaHud_HeaderTemplate">    
+						<Scripts><OnLoad>
+							MetaHudO_Header_OnLoad(self,360,-65);
+						</OnLoad></Scripts>
+					</Frame>
+					<CheckButton name="MetaHud_texturefile1" inherits="MetaHud_SwitchButtonTemplate" id="1">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_Header_texturefileText" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="10" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_texturefile2" inherits="MetaHud_SwitchButtonTemplate" id="2">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile1" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_texturefile3" inherits="MetaHud_SwitchButtonTemplate" id="3">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile2" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_texturefile4" inherits="MetaHud_SwitchButtonTemplate" id="4">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile3" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_texturefile5" inherits="MetaHud_SwitchButtonTemplate" id="5">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile4" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile6" inherits="MetaHud_SwitchButtonTemplate" id="6">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile5" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile7" inherits="MetaHud_SwitchButtonTemplate" id="7">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile6" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile8" inherits="MetaHud_SwitchButtonTemplate" id="8">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile7" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile9" inherits="MetaHud_SwitchButtonTemplate" id="9">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile8" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile10" inherits="MetaHud_SwitchButtonTemplate" id="10">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile9" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile11" inherits="MetaHud_SwitchButtonTemplate" id="11">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile10" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile12" inherits="MetaHud_SwitchButtonTemplate" id="12">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile11" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile13" inherits="MetaHud_SwitchButtonTemplate" id="13">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile12" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_texturefile14" inherits="MetaHud_SwitchButtonTemplate" id="14">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_texturefile13" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					
+					<Frame name="MetaHud_Header_fontfile" inherits="MetaHud_HeaderTemplate">    
+						<Scripts><OnLoad>
+							MetaHudO_Header_OnLoad(self,525,-65);
+						</OnLoad></Scripts>
+					</Frame>
+					<CheckButton name="MetaHud_fontfile1" inherits="MetaHud_SwitchButtonTemplate" id="1">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_Header_fontfileText" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="10" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_fontfile2" inherits="MetaHud_SwitchButtonTemplate" id="2">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_fontfile1" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_fontfile3" inherits="MetaHud_SwitchButtonTemplate" id="3">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_fontfile2" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_fontfile4" inherits="MetaHud_SwitchButtonTemplate" id="4">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_fontfile3" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+					</CheckButton>
+					<CheckButton name="MetaHud_fontfile5" inherits="MetaHud_SwitchButtonTemplate" id="5">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_fontfile4" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-20"/></Offset>
+							</Anchor>
+						</Anchors> 
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+								GameTooltip:SetText(MetaHudO_locale["fontfile5_tooltip"], 1, 1, 1, true);
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>					
+						</Scripts>
+					</CheckButton>
+					
+					<Frame name="MetaHud_Header_profiles" inherits="MetaHud_HeaderTemplate">    
+						<Scripts><OnLoad>
+							MetaHudO_Header_OnLoad(self,455,-405);
+						</OnLoad></Scripts>
+					</Frame>
+					<EditBox name="MetaHud_newprofile" autoFocus="false">
+						<Size>
+							<AbsDimension	x="130"	y="18" />
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_Header_profilesText" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="10" y="-25"/></Offset>
+							</Anchor>
+						</Anchors> 
+						<Layers>
+							<Layer level="BACKGROUND">
+								<Texture file="Interface\AddOns\MetaHudOptions\goldedge">
+									<Anchors>
+										<Anchor	point="TOPLEFT">
+											<Offset>
+												<AbsDimension	x="0"	y="0"/>
+											</Offset>
+										</Anchor>
+										<Anchor	point="BOTTOMRIGHT">
+											<Offset>
+												<AbsDimension	x="0"	y="0"/>
+											</Offset>
+										</Anchor>
+									</Anchors>	
+								</Texture>				
+							</Layer>
+							<Layer level="ARTWORK">	
+								<Texture>
+									<Anchors>
+										<Anchor	point="TOPLEFT">
+											<Offset>
+												<AbsDimension	x="1"	y="-1"/>
+											</Offset>
+										</Anchor>
+										<Anchor	point="BOTTOMRIGHT">
+											<Offset>
+												<AbsDimension	x="-1" y="1"/>
+											</Offset>
+										</Anchor>
+									</Anchors>					
+									<Color r="0.0" g="0.0" b="0.0" a="0.9"/>
+								</Texture>											
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnLoad>
+							</OnLoad>
+							<OnShow> self:ClearFocus();	</OnShow>
+							<OnEnterPressed> self:ClearFocus();	</OnEnterPressed>
+							<OnEscapePressed>	self:ClearFocus(); </OnEscapePressed>
+						</Scripts>
+						<FontString font="Fonts\FRIZQT__.TTF"	bytes="256">
+							<Color r="1" g="1" b="1"/>
+							<FontHeight><AbsValue val="11"/></FontHeight>
+						</FontString>
+					</EditBox>
+					<Button name="MetaHud_saveprofile" inherits="OptionsButtonTemplate">
+						<Size><AbsDimension x="60" y="20"/></Size>
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="MetaHud_newprofile" relativePoint="RIGHT">
+								<Offset><AbsDimension x="1" y="0"/></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self.setting_name = string.gsub(self:GetName(), "MetaHud_", "");
+								_G[self:GetName().."Text"]:SetText(MetaHudO_locale[self.setting_name]);
+							</OnLoad>				
+							<OnClick>
+								MetaHud_ProfilesButton_OnClick(self.setting_name)
+							</OnClick>
+						</Scripts>
+					</Button>
+					<Button name="MetaHud_selectprofile" inherits="MetaHud_Dropdown_Template" id="1">
+						<Size>
+							<AbsDimension	x="130"	y="18" />
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="MetaHud_newprofile" relativePoint="TOPLEFT">
+								<Offset><AbsDimension x="0" y="-25"/></Offset>
+							</Anchor>
+						</Anchors> 
+						<Scripts>
+							<OnShow>
+								UIDropDownMenu_Initialize(MetaHud_selectprofileMenu, MetaHud_ProfilesDropDown_Init, "MENU");
+							</OnShow>				
+						</Scripts>
+					</Button>
+					<Button name="MetaHud_loadprofile" inherits="OptionsButtonTemplate">
+						<Size><AbsDimension x="60" y="20"/></Size>
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="MetaHud_selectprofile" relativePoint="RIGHT">
+								<Offset><AbsDimension x="1" y="0"/></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self.setting_name = string.gsub(self:GetName(), "MetaHud_", "");
+								_G[self:GetName().."Text"]:SetText(MetaHudO_locale[self.setting_name]);
+							</OnLoad>				
+							<OnClick>
+								MetaHud_ProfilesButton_OnClick(self.setting_name)
+							</OnClick>
+						</Scripts>
+					</Button>
+					<Button name="MetaHud_deleteprofile" inherits="OptionsButtonTemplate">
+						<Size><AbsDimension x="60" y="20"/></Size>
+						<Anchors>
+							<Anchor point="TOP" relativeTo="MetaHud_loadprofile" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="0" y="-5"/></Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self.setting_name = string.gsub(self:GetName(), "MetaHud_", "");
+								_G[self:GetName().."Text"]:SetText(MetaHudO_locale[self.setting_name]);
+							</OnLoad>				
+							<OnClick>
+								MetaHud_ProfilesButton_OnClick(self.setting_name)
+							</OnClick>
+						</Scripts>
+					</Button>
+
+				</Frames>      
+            </Frame>	
+            
+			<!-- Page 2 -->
+            <Frame name="MetaHud_Tab2" hidden="true" >	
+                <Frames>
+                    <Frame name="MetaHud_Header_player" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-65);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<CheckButton name="MetaHud_Check_showplayer" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_playerText">
+                                <Offset><AbsDimension x="10" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showresticon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showplayer">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+                    <CheckButton name="MetaHud_Check_showplayerpvpicon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showresticon">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showplayerleadericon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showplayerpvpicon">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+                    <CheckButton name="MetaHud_Check_showplayerlootericon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showplayerleadericon">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_ewcontrol" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showplayerlootericon">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showrunes" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_ewcontrol">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_runeVerticle" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showrunes">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_runeorient" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_runeVerticle">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<Frame name="MetaHud_Header_pet" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,190,-65);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<CheckButton name="MetaHud_Check_showpet" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_petText">
+                            <Offset><AbsDimension x="15" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showpeticon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showpet">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+                    <Frame name="MetaHud_Header_playerscale" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-395);
+                        </OnLoad></Scripts>
+                    </Frame>   
+
+                    <Slider name="MetaHud_Slider_fontsizeplayer" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_playerscaleText">
+                            <Offset><AbsDimension x="10" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 6 , 30 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+
+                    <Slider name="MetaHud_Slider_fontsizepet" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_fontsizeplayer">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 6 , 30 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Frame name="MetaHud_Header_playeroutline" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,525,-65);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<Slider name="MetaHud_Slider_playerhpoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_playeroutlineText">
+                            <Offset><AbsDimension x="10" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_playermanaoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_playerhpoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_pethpoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_playermanaoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_petmanaoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_pethpoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Frame name="MetaHud_Header_playeroffset" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,190,-340);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<Frame name="MetaHud_Pos_playerhptextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_playeroffsetText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="10" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_playerhptexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_playeroffsetText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="160" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                
+                    
+                    <Frame name="MetaHud_Pos_playermanatextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_playerhptextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_playermanatexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_playerhptextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="150" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+					
+					<Frame name="MetaHud_Pos_pethptextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_playermanatextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_pethptexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_playermanatextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="150" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+					
+					<Frame name="MetaHud_Pos_petmanatextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_pethptextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_petmanatexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_pethptextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="150" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+
+					<Frame name="MetaHud_Pos_runeframex" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_petmanatextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_runeframey" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_petmanatextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="150" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+					
+                </Frames>      
+            </Frame>	
+            
+			<!-- Page 3 -->
+            <Frame name="MetaHud_Tab3" hidden="true" >	
+                <Frames>
+				
+					<Frame name="MetaHud_Header_targetoutline" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,525,-65);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+                    <Frame name="MetaHud_Header_target" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-65);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<CheckButton name="MetaHud_Check_showtarget" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_targetText">
+                                <Offset><AbsDimension x="10" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showtargetpvpicon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showtarget">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+                    <CheckButton name="MetaHud_Check_showtargeticon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showtargetpvpicon">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+                    <CheckButton name="MetaHud_Check_showeliteicon" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showtargeticon">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showelitetext" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showeliteicon">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<!-- column two -->
+					
+					<CheckButton name="MetaHud_Check_showrange" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showtarget">
+                            <Offset><AbsDimension x="180" y="0"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+                    <CheckButton name="MetaHud_Check_showguild" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showrange">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showthreat" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showguild">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showcombopoints" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showthreat">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<CheckButton name="MetaHud_Check_activename" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showcombopoints">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+
+                    <CheckButton name="MetaHud_Check_showtotarget" inherits="MetaHud_Check_Template">	
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_activename">
+                            <Offset><AbsDimension x="0" y="-25"/></Offset>
+                        </Anchor></Anchors>
+                    </CheckButton>
+					
+					<Frame name="MetaHud_Header_textpos" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-255);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<Slider name="MetaHud_Slider_fontsizetarget" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_textposText">
+                            <Offset><AbsDimension x="10" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 6 , 30 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_fontsizetargetname" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_fontsizetarget">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 6 , 30 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_fontsizetotarget" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_fontsizetargetname">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 6 , 30 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_ttscale" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_fontsizetotarget">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 0.2 , 2, 0.1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_fontsizerange" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_ttscale">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 6 , 30 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_fontsizeguild" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_fontsizerange">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 6 , 30 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+                    <Frame name="MetaHud_Header_pos" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,190,-315);
+                        </OnLoad></Scripts>
+                    </Frame>
+                    
+                    <Frame name="MetaHud_Pos_targettextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_posText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="10" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>  
+
+                    <Frame name="MetaHud_Pos_targettexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_posText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="165" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>  
+                    
+                    <Frame name="MetaHud_Pos_totargettextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_targettextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame> 
+
+                    <Frame name="MetaHud_Pos_totargettexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_targettexty" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>  
+                    
+                    <Frame name="MetaHud_Pos_rangetextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_totargettextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame> 
+
+                    <Frame name="MetaHud_Pos_rangetexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_totargettexty" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>  
+                    
+                    <Frame name="MetaHud_Pos_guildtextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_rangetextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame> 
+
+                    <Frame name="MetaHud_Pos_guildtexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_rangetexty" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>  
+                    
+                    
+                    <Frame name="MetaHud_Pos_targethptextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_guildtextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_targethptexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_guildtexty" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame> 
+
+                    <Frame name="MetaHud_Pos_targetmanatextx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_targethptextx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_targetmanatexty" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_targethptexty" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+
+                    <!-- slider targethpoutline -->
+                    <Slider name="MetaHud_Slider_targethpoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_targetoutlineText">
+                            <Offset><AbsDimension x="10" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+
+                    <!-- slider targetmanaoutline -->
+                    <Slider name="MetaHud_Slider_targetmanaoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_targethpoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+
+                    <!-- slider targetoutline -->
+                    <Slider name="MetaHud_Slider_targetoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_targetmanaoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>
+
+                    <!-- slider totargetoutline -->
+                    <Slider name="MetaHud_Slider_totargetoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_targetoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>           
+                    
+                    <!-- slider rangeoutline -->
+                    <Slider name="MetaHud_Slider_rangeoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_totargetoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>           
+                    
+                    <!-- slider guildoutline -->
+                    <Slider name="MetaHud_Slider_guildoutline" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_rangeoutline">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            self.triggertext = 1;
+                            self.nullbase = 1;
+                            MetaHudO_FrameSlider_OnLoad(self, 1 , 3 , 1 );
+                        </OnLoad></Scripts>
+                    </Slider>           
+
+                </Frames>      
+            </Frame>                
+
+			<!-- Page 4 -->
+			<Frame name="MetaHud_Tab4" hidden="true" >	
+				<Frames>
+				
+					<Frame name="MetaHud_Header_buffs" inherits="MetaHud_HeaderTemplate">    
+						<Scripts><OnLoad>
+								MetaHudO_Header_OnLoad(self,10,-65);
+						</OnLoad></Scripts>
+					</Frame>
+					
+					<CheckButton name="MetaHud_Check_showauras" inherits="MetaHud_Check_Template">	
+						<Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_buffsText">
+								<Offset><AbsDimension x="10" y="-25"/></Offset>
+						</Anchor></Anchors>
+					</CheckButton>
+					<CheckButton name="MetaHud_Check_swaptargetauras" inherits="MetaHud_Check_Template">	
+						<Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showauras">
+								<Offset><AbsDimension x="0" y="-25"/></Offset>
+						</Anchor></Anchors>
+					</CheckButton>
+					<CheckButton name="MetaHud_Check_showauratips" inherits="MetaHud_Check_Template">	
+						<Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_swaptargetauras">
+								<Offset><AbsDimension x="0" y="-25"/></Offset>
+						</Anchor></Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_Check_showallcd" inherits="MetaHud_Check_Template">	
+						<Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showauratips">
+								<Offset><AbsDimension x="0" y="-25"/></Offset>
+						</Anchor></Anchors>
+					</CheckButton>
+					<CheckButton name="MetaHud_Check_showmycd" inherits="MetaHud_Check_Template">	
+						<Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showallcd">
+								<Offset><AbsDimension x="0" y="-25"/></Offset>
+						</Anchor></Anchors>
+					</CheckButton>
+					
+					<CheckButton name="MetaHud_Check_doublemine" inherits="MetaHud_Check_Template">	
+						<Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Check_showmycd">
+								<Offset><AbsDimension x="0" y="-25"/></Offset>
+						</Anchor></Anchors>
+					</CheckButton>
+					
+					<Frame name="MetaHud_Header_buffscale" inherits="MetaHud_HeaderTemplate">    
+						<Scripts><OnLoad>
+								MetaHudO_Header_OnLoad(self,10,-360);
+						</OnLoad></Scripts>
+					</Frame>
+				
+					<Slider name="MetaHud_Slider_targetbuffsize" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Header_buffscaleText">
+                            <Offset><AbsDimension x="10" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 10 , 40 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_targetdebuffsize" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_targetbuffsize">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 10 , 40 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+<!--
+					<Slider name="MetaHud_Slider_mtargetbuffsize" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_targetdebuffsize">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 10 , 40 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Slider name="MetaHud_Slider_mtargetdebuffsize" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_mtargetbuffsize">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 10 , 40 , 1 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					-->
+					<Slider name="MetaHud_Slider_buffheight" inherits="MetaHud_Slider_Template">
+                        <Anchors><Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="MetaHud_Slider_targetdebuffsize">
+                            <Offset><AbsDimension x="0" y="-35"/></Offset>
+                        </Anchor></Anchors>
+                        <Scripts><OnLoad>
+                            MetaHudO_FrameSlider_OnLoad(self, 20 , 400 , 10 );
+                            self.triggertext = 1;
+                        </OnLoad></Scripts>
+                    </Slider>
+					
+					<Frame name="MetaHud_Header_auraoffset" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,190,-415);
+                        </OnLoad></Scripts>
+                    </Frame>
+					
+					<Frame name="MetaHud_Pos_buffx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_auraoffsetText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="10" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_buffy" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_auraoffsetText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="160" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>
+					
+					<Frame name="MetaHud_Pos_debuffx" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_buffx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>                   
+
+                    <Frame name="MetaHud_Pos_debuffy" inherits="MetaHud_PosTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Pos_buffx" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="160" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                    </Frame>  
+				</Frames>    
+			</Frame>
+			
+			<!-- Page 5 -->
+            <Frame name="MetaHud_Tab5" hidden="true" >	
+                <Frames>
+                
+                    <!-- ........... -->
+                    <!-- Header Text -->
+                    <!-- ........... -->
+
+                    <Frame name="MetaHud_Edit_MetaHud_PlayerHealth_Text" inherits="MetaHud_Edit_Template" virtual="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHudOptionsFrame" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="20" y="-70"/></Offset>
+                            </Anchor>
+                        </Anchors>                                    
+                    </Frame>                                    
+
+                    <Frame name="MetaHud_Edit_MetaHud_PlayerMana_Text" inherits="MetaHud_Edit_Template" virtual="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Edit_MetaHud_PlayerHealth_Text" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-46"/></Offset>
+                            </Anchor>
+                        </Anchors>                                    
+                    </Frame> 
+            
+                    <Frame name="MetaHud_Edit_MetaHud_TargetHealth_Text" inherits="MetaHud_Edit_Template" virtual="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Edit_MetaHud_PlayerMana_Text" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-46"/></Offset>
+                            </Anchor>
+                        </Anchors>                                    
+                    </Frame> 
+
+                    <Frame name="MetaHud_Edit_MetaHud_TargetMana_Text" inherits="MetaHud_Edit_Template" virtual="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Edit_MetaHud_TargetHealth_Text" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-46"/></Offset>
+                            </Anchor>
+                        </Anchors>                                    
+                    </Frame> 
+
+                    <Frame name="MetaHud_Edit_MetaHud_PetHealth_Text" inherits="MetaHud_Edit_Template" virtual="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Edit_MetaHud_TargetMana_Text" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-46"/></Offset>
+                            </Anchor>
+                        </Anchors>                                    
+                    </Frame> 
+
+                    <Frame name="MetaHud_Edit_MetaHud_PetMana_Text" inherits="MetaHud_Edit_Template" virtual="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Edit_MetaHud_PetHealth_Text" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-46"/></Offset>
+                            </Anchor>
+                        </Anchors>                                    
+                    </Frame> 
+
+                    <Frame name="MetaHud_Edit_MetaHud_Target_Text" inherits="MetaHud_Edit_Template" virtual="true">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Edit_MetaHud_PetMana_Text" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-46"/></Offset>
+                            </Anchor>
+                        </Anchors>                                    
+                    </Frame>                 
+                </Frames>      
+            </Frame>   
+
+			<!-- Page 6 -->
+            <Frame name="MetaHud_Tab6" hidden="true" >	
+                <Frames>
+                
+                    <!-- ................... -->
+                    <!-- Header colorsplayer -->
+                    <!-- ................... -->
+                    <Frame name="MetaHud_Header_colorsplayer" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-70);
+                        </OnLoad></Scripts>
+                    </Frame>
+                    
+                    <Frame name="MetaHud_Colorbox_health_player" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_colorsplayerText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="110" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>
+                     
+                    <Frame name="MetaHud_Colorbox_mana_player" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_health_player" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>
+
+                    <Frame name="MetaHud_Colorbox_rage_player" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_mana_player" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>
+
+                    <Frame name="MetaHud_Colorbox_energy_player" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_rage_player" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>
+
+                    <!-- ................... -->
+                    <!-- Header colorspet    -->
+                    <!-- ................... -->
+                    <Frame name="MetaHud_Header_colorspet" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-185);
+                        </OnLoad></Scripts>
+                    </Frame>
+                    
+                    <Frame name="MetaHud_Colorbox_health_pet" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_colorspetText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="110" y="-25"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>    
+                     
+                    <Frame name="MetaHud_Colorbox_mana_pet" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_health_pet" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>                        
+
+                    <Frame name="MetaHud_Colorbox_focus_pet" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_mana_pet" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>                       
+
+                    <!-- ................... -->
+                    <!-- Header colorstarget -->
+                    <!-- ................... -->
+                    <Frame name="MetaHud_Header_colorstarget" inherits="MetaHud_HeaderTemplate">    
+                        <Scripts><OnLoad>
+                                MetaHudO_Header_OnLoad(self,10,-285);
+                        </OnLoad></Scripts>
+                    </Frame>
+                    
+                    <Frame name="MetaHud_Colorbox_health_target" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Header_colorstargetText" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="110" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>  
+
+                    <Frame name="MetaHud_Colorbox_mana_target" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_health_target" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame>  
+ 
+                    <Frame name="MetaHud_Colorbox_rage_target" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_mana_target" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame> 
+
+                    <Frame name="MetaHud_Colorbox_energy_target" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_rage_target" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame> 
+
+                    <Frame name="MetaHud_Colorbox_focus_target" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_energy_target" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame> 
+
+                    <Frame name="MetaHud_Colorbox_tapped" inherits="MetaHud_Colorbox_Template"> 
+                        <Anchors>
+                            <Anchor point="TOPLEFT" relativeTo="MetaHud_Colorbox_focus_target" relativePoint="TOPLEFT">
+                                <Offset><AbsDimension x="0" y="-20"/></Offset>
+                            </Anchor>
+                        </Anchors>
+                     </Frame> 
+                </Frames>      
+            </Frame>   
+
+
+			<!-- Tabbutton -->               
+			<Button name="$parentTab1" inherits="MetaHud_TabButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="10" y="-30"/></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>   
+   
+            <!-- Tabbutton -->
+			<Button name="$parentTab2" inherits="MetaHud_TabButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT"></Anchor>
+				</Anchors>
+			</Button>
+
+            <!-- Tabbutton -->
+			<Button name="$parentTab3" inherits="MetaHud_TabButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT"></Anchor>
+				</Anchors>
+			</Button>
+
+            <!-- Tabbutton -->
+			<Button name="$parentTab4" inherits="MetaHud_TabButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT"></Anchor>
+				</Anchors>
+			</Button>
+
+            <!-- Tabbutton -->
+			<Button name="$parentTab5" inherits="MetaHud_TabButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab4" relativePoint="RIGHT"></Anchor>
+				</Anchors>
+			</Button>
+
+			<Button name="$parentTab6" inherits="MetaHud_TabButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab5" relativePoint="RIGHT"></Anchor>
+				</Anchors>
+			</Button>
+	    </Frames>
+		<Scripts>
+			<OnLoad>
+				MetaHudO_OnLoad(self);
+			</OnLoad>
+			<OnMouseDown>
+				if (button == "LeftButton") then
+					self:StartMoving();
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if (button == "LeftButton") then
+					self:StopMovingOrSizing();
+				end
+			</OnMouseUp>
+			<OnShow>
+				MetaHud_SwitchButton_Select("All");      
+			</OnShow>
+		</Scripts>
+	</Frame>
+
+	<Frame name="MetaHudHelpFrame" toplevel="true" parent="MetaHudOptionsFrame" hidden="true">
+		<Size>
+			<AbsDimension x="150" y="430"/>
+		</Size>
+		<Anchors>
+			<Anchor point="LEFT" relativeTo="MetaHudOptionsFrame" relativePoint="RIGHT">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="4" right="4" top="4" bottom="4" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="16" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+        <Layers>
+    		<Layer level="ARTWORK">
+    			<FontString name="$parentText" inherits="GameFontHighlightSmall" justifyH="LEFT" text="MetaHud_TEXTHELP">
+            		<Anchors>
+            			<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+            				<Offset>
+            					<AbsDimension x="10" y="-10"/>
+            				</Offset>
+            			</Anchor>
+            		</Anchors>
+    			</FontString>
+    		</Layer>
+		</Layers>
+    </Frame>
+
+</Ui>
