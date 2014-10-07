@@ -1,7 +1,7 @@
 package-as: MetaHud
 
 move-folders:
-    modules/MetaHud: MetaHud
-    modules/metaHudOptions: MetaHudOptions
+    MetaHud/Modules/MetaHud: MetaHud
+    MetaHud/Modules/metaHudOptions: MetaHudOptions
 
 license-output: LICENSE.txt
