@@ -1,0 +1,13 @@
+## Interface: 50400
+## Title: MetaHud - Revived Branch
+## Previous Title: MetaHud - Nuckin Branch
+## Author: Ben Hollomon (benwholl)
+## Previous Author: Greg Flynn (Nuckin)
+## Notes: Heads Up Display
+## Version: 50400-9.1
+## SavedVariablesPerCharacter: MetaHudOptions
+## OptionalDeps: myAddOns, DruidBar
+Embeds.xml
+MetaHud_Vars.lua
+MetaHud.lua
+MetaHud.xml

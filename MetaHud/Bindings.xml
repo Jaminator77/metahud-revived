@@ -1,0 +1,3 @@
+<Bindings>
+	<Binding name="Chat Alert" header="METAHUD">MetaHud:ChatAlert();</Binding>
+</Bindings>
