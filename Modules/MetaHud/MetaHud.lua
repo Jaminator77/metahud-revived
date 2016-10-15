@@ -1,7 +1,7 @@
 --- Init Vars --
 METAHUD_NAME = "MetaHud - Revived Branch"
-METAHUD_TOC = 50400;
-METAHUD_VERSION = "v"..METAHUD_TOC.."-9.1";
+METAHUD_TOC = 60000;
+METAHUD_VERSION = "v"..METAHUD_TOC.."-9.2";
 METAHUD_ICON = "Interface\\AddOns\\MetaHud\\Layout\\Icon";
 METAHUD_LAYOUTPATH = "Interface\\AddOns\\MetaHud\\Layout\\";
 BINDING_HEADER_METAHUD = "|cff00FF80"..METAHUD_NAME.."|r";
@@ -253,7 +253,9 @@ MetaHud = {
           ["showeliteicon"]      = 1, 
           ["showcombopoints"]    = 1,
           ["showrunes"]          = 1,
+          ["showchi"]            = 1,
           ["showholypower"]      = 1,
+          ["showshadoworbs"]     = 1,
           ["showsoulshards"]     = 1,
           ["animatebars"]        = 1,
           ["barborders"]         = 1,
@@ -1516,6 +1518,14 @@ function MetaHud:UpdateCombos()
           _G["MetaHud_SoulShard"..i]:Hide();
      end
 
+     for i = 1, 6 do
+          _G["MetaHud_Chi"..i]:Hide();
+     end
+     
+     for i = 1, 3 do
+          _G["MetaHud_ShadowOrb"..i]:Hide();
+     end
+     
      if MetaHudOptions["showcombopoints"] == 1 then
           local points = 0
           if not (self["player_class"] == "DRUID" or self["player_class"] == "ROGUE") and not UnitHasVehicleUI("player") then
@@ -1524,12 +1534,16 @@ function MetaHud:UpdateCombos()
                     points = count or 0
                elseif self["player_class"] == "DEATHKNIGHT" then
                     MetaHud:UpdateRunes()
+               elseif self["player_class"] == "MONK" then
+                    MetaHud:UpdateChi()
                elseif self["player_class"] == "PALADIN" then
                     --points = UnitPower("player", SPELL_POWER_HOLY_POWER) or 0
                     MetaHud:UpdateHolyPower()
+               elseif self["player_class"] == "PRIEST" then
+                    MetaHud:UpdateShadowOrbs()
                elseif self["player_class"] == "WARLOCK" then
                     --points = UnitPower("player", SPELL_POWER_SOUL_SHARDS) or 0
-                    MetaHud:UpdateSoulShards()
+                    --MetaHud:UpdateSoulShards()
                end
           else
                points = GetComboPoints(UnitHasVehicleUI("player") and "vehicle" or "player", "target")
@@ -1553,6 +1567,14 @@ function MetaHud:UpdateCombos()
 
           for i = 1,4 do
                _G["MetaHud_SoulShard"..i]:Hide();
+          end
+          
+          for i = 1, 6 do
+               _G["MetaHud_Chi"..i]:Hide();
+          end
+          
+          for i = 1, 3 do
+               _G["MetaHud_ShadowOrb"..i]:Hide();
           end
      end          
 end
@@ -1594,6 +1616,26 @@ function MetaHud:UpdateRunes()
      end
 end
 
+function MetaHud:UpdateChi()
+     if(MetaHudOptions.showchi == 1 and MetaHud.player_class == "MONK" and not UnitHasVehicleUI("player")) then
+          local points = UnitPower("player", SPELL_POWER_CHI) or 0;
+
+          --print(points);
+
+          for i = 1, points do
+               _G["MetaHud_Chi"..i]:Show();
+          end
+
+          for i = points + 1, 6 do
+               _G["MetaHud_Chi"..i]:Hide();
+          end
+     else
+          for i = 1, 6 do
+               _G["MetaHud_Chi"..i]:Hide();
+          end
+     end
+end
+
 function MetaHud:UpdateHolyPower()
      if(MetaHudOptions.showholypower == 1 and MetaHud.player_class == "PALADIN" and not UnitHasVehicleUI("player")) then
           local points = UnitPower("player", SPELL_POWER_HOLY_POWER) or 0;
@@ -1612,6 +1654,26 @@ function MetaHud:UpdateHolyPower()
                _G["MetaHud_HolyPower"..i]:Hide();
           end
      end
+end
+
+function MetaHud:UpdateShadowOrbs()
+     if(MetaHudOptions.showshadoworbs == 1 and MetaHud.player_class == "PRIEST" and not UnitHasVehicleUI("player")) then
+          local points = UnitPower("player", SPELL_POWER_SHADOW_ORBS ) or 0;
+
+          --print(points);
+
+          for i = 1, points do
+               _G["MetaHud_ShadowOrb"..i]:Show();
+          end
+
+          for i = points + 1, 3 do
+               _G["MetaHud_ShadowOrb"..i]:Hide();
+          end
+     else
+          for i = 1, 3 do
+               _G["MetaHud_ShadowOrb"..i]:Hide();
+          end
+     end     
 end
 
 function MetaHud:UpdateSoulShards()
@@ -2647,6 +2709,15 @@ function MetaHud:SetLayoutElements()
                "MetaHud_Rune4",
                "MetaHud_Rune5",
                "MetaHud_Rune6",
+               "MetaHud_Chi1",
+               "MetaHud_Chi2",
+               "MetaHud_Chi3",
+               "MetaHud_Chi4",
+               "MetaHud_Chi5",
+               "MetaHud_Chi6",
+               "MetaHud_ShadowOrb1",
+               "MetaHud_ShadowOrb2",
+               "MetaHud_ShadowOrb3",
                --"MetaHud_PlayerOrb",
                --"MetaHud_TargetOrb",
                "MetaHud_Target_Text",
@@ -2768,6 +2839,15 @@ function MetaHud:SetLayoutElements()
                ["MetaHud_SoulShard2"]       = { METAHUD_LAYOUTPATH.."ss"      , 0 , 1 , 0 , 1 },
                ["MetaHud_SoulShard3"]       = { METAHUD_LAYOUTPATH.."ss"      , 0 , 1 , 0 , 1 },
                ["MetaHud_SoulShard4"]       = { METAHUD_LAYOUTPATH.."ss"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_Chi1"]             = { METAHUD_LAYOUTPATH.."c5"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_Chi2"]             = { METAHUD_LAYOUTPATH.."c5"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_Chi3"]             = { METAHUD_LAYOUTPATH.."c5"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_Chi4"]             = { METAHUD_LAYOUTPATH.."c5"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_Chi5"]             = { METAHUD_LAYOUTPATH.."c5"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_Chi6"]             = { METAHUD_LAYOUTPATH.."c5"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_ShadowOrb1"]       = { METAHUD_LAYOUTPATH.."ss"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_ShadowOrb2"]       = { METAHUD_LAYOUTPATH.."ss"      , 0 , 1 , 0 , 1 },
+               ["MetaHud_ShadowOrb3"]       = { METAHUD_LAYOUTPATH.."ss"      , 0 , 1 , 0 , 1 },
                ["MetaHud_PlayerResting"]    = { "Interface\\CharacterFrame\\UI-StateIcon"         , 0.0625 , 0.4475 , 0.0625 , 0.4375  },
                ["MetaHud_PlayerAttacking"]  = { "Interface\\CharacterFrame\\UI-StateIcon"         , 0.5625 , 0.9375 , 0.0625 , 0.4375  },
                ["MetaHud_PlayerLeader"]     = { "Interface\\GroupFrame\\UI-Group-LeaderIcon"      , 0      , 1      , 0      , 1       },
@@ -2959,6 +3039,15 @@ function MetaHud:UpdateLayout(LayoutType)
           framelayout["MetaHud_SoulShard2"]        = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -1   , 20  , 20  , 20 };
           framelayout["MetaHud_SoulShard3"]        = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -7   , 40  , 20  , 20 };
           framelayout["MetaHud_SoulShard4"]        = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -11  , 60  , 20  , 20 };
+          framelayout["MetaHud_Chi1"]              = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , 6    , 0   , 20  , 20 };
+          framelayout["MetaHud_Chi2"]              = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -1   , 20  , 20  , 20 };
+          framelayout["MetaHud_Chi3"]              = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -7   , 40  , 20  , 20 };
+          framelayout["MetaHud_Chi4"]              = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -11  , 60  , 20  , 20 };
+          framelayout["MetaHud_Chi5"]              = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -13  , 80  , 20  , 20 };
+          framelayout["MetaHud_Chi6"]              = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -14  , 100 , 20  , 20 };
+          framelayout["MetaHud_ShadowOrb1"]        = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , 6    , 0   , 20  , 20 };
+          framelayout["MetaHud_ShadowOrb2"]        = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -1   , 20  , 20  , 20 };
+          framelayout["MetaHud_ShadowOrb3"]        = { "Texture" , "BOTTOM" , "MetaHud_LeftFrame"    , "BOTTOM"  , -7   , 40  , 20  , 20 };
           framelayout["MetaHud_PlayerResting"]     = { "Texture" , "BOTTOM" , "MetaHud_RightFrame"   , "BOTTOM"  , 2    , 0   , 22  , 22 };
           framelayout["MetaHud_PlayerAttacking"]   = { "Texture" , "BOTTOM" , "MetaHud_RightFrame"   , "BOTTOM"  , 2    , 0   , 22  , 22 };
           framelayout["MetaHud_PlayerPvP"]         = { "Texture" , "BOTTOM" , "MetaHud_RightFrame"   , "BOTTOM"  , 7    , 25  , 22  , 22 };
@@ -3027,6 +3116,15 @@ function MetaHud:UpdateLayout(LayoutType)
           framelayout["MetaHud_SoulShard2"]        = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 3   , 20   , 20  , 20 };
           framelayout["MetaHud_SoulShard3"]        = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 8   , 40   , 20  , 20 };
           framelayout["MetaHud_SoulShard4"]        = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 11  , 60   , 20  , 20 };
+          framelayout["MetaHud_Chi1"]              = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , -4  , 0    , 20  , 20 };
+          framelayout["MetaHud_Chi2"]              = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 3   , 20   , 20  , 20 };
+          framelayout["MetaHud_Chi3"]              = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 8   , 40   , 20  , 20 };
+          framelayout["MetaHud_Chi4"]              = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 11  , 60   , 20  , 20 };
+          framelayout["MetaHud_Chi5"]              = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 13  , 80   , 20  , 20 };
+          framelayout["MetaHud_Chi6"]              = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 14  , 100  , 20  , 20 };
+          framelayout["MetaHud_ShadowOrb1"]        = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , -4  , 0    , 20  , 20 };
+          framelayout["MetaHud_ShadowOrb2"]        = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 3   , 20   , 20  , 20 };
+          framelayout["MetaHud_ShadowOrb3"]        = { "Texture" , "BOTTOM"    , "MetaHud_RightFrame" , "BOTTOM"    , 8   , 40   , 20  , 20 };
           framelayout["MetaHud_PlayerResting"]     = { "Texture" , "BOTTOM"    , "MetaHud_LeftFrame"  , "BOTTOM"    , -2  , 0    , 22  , 22 };
           framelayout["MetaHud_PlayerAttacking"]   = { "Texture" , "BOTTOM"    , "MetaHud_LeftFrame"  , "BOTTOM"    , -2  , 0    , 22  , 22 };
           framelayout["MetaHud_PlayerPvP"]         = { "Texture" , "BOTTOM"    , "MetaHud_LeftFrame"  , "BOTTOM"    , -7  , 25   , 22  , 22 };
