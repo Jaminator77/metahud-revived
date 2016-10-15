@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: MetaHud Options (Revived Branch)
 ## Previous Title: MetaHud Options (Nuckin Branch)
 ## Author: Jaminator77
