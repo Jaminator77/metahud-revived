@@ -254,147 +254,147 @@ MetaHud_DORESET  = "Do you really want to\nreset your Settings?";
 
 MetaHudO_SELECTION = {};
 MetaHudO_SELECTION["MetaHud_PlayerHealth_Text"] = { 
-    ttt   = "Ready to use Text Templates", 
-    table = {
-        [1] = "User defined Text",
-        [2] = "70",
-        [3] = "70/150",
-        [4] = "50%",
-        [5] = "70 (50%)",
-        [6] = "70/140 (50%)",
-        [7] = "empty",
-    },
-    values = {
-        [1] = METAHUD_TEXT_EMPTY,
-        [2] = METAHUD_TEXT_HP2,
-        [3] = METAHUD_TEXT_HP3,
-        [4] = METAHUD_TEXT_HP4,
-        [5] = METAHUD_TEXT_HP5,
-        [6] = METAHUD_TEXT_HP6,
-        [7] = METAHUD_TEXT_EMPTY,
-    }
+     ttt   = "Ready to use Text Templates", 
+     table = {
+          [1] = "User defined Text",
+          [2] = "70",
+          [3] = "70/150",
+          [4] = "50%",
+          [5] = "70 (50%)",
+          [6] = "70/140 (50%)",
+          [7] = "empty",
+     },
+     values = {
+          [1] = METAHUD_TEXT_EMPTY,
+          [2] = METAHUD_TEXT_HP2,
+          [3] = METAHUD_TEXT_HP3,
+          [4] = METAHUD_TEXT_HP4,
+          [5] = METAHUD_TEXT_HP5,
+          [6] = METAHUD_TEXT_HP6,
+          [7] = METAHUD_TEXT_EMPTY,
+     }
 };
 MetaHudO_SELECTION["MetaHud_PlayerMana_Text"] = { 
-    ttt   = "Ready to use Text Templates", 
-    table = {
-        [1] = "User defined Text",
-        [2] = "70",
-        [3] = "70/150",
-        [4] = "50%",
-        [5] = "70 (50%)",
-        [6] = "70/140 (50%)",
-        [7] = "empty",
-    },
-    values = {
-        [1] = METAHUD_TEXT_EMPTY,
-        [2] = METAHUD_TEXT_MP2,
-        [3] = METAHUD_TEXT_MP3,
-        [4] = METAHUD_TEXT_MP4,
-        [5] = METAHUD_TEXT_MP5,
-        [6] = METAHUD_TEXT_MP6,
-        [7] = METAHUD_TEXT_EMPTY,
-    }
+     ttt   = "Ready to use Text Templates", 
+     table = {
+          [1] = "User defined Text",
+          [2] = "70",
+          [3] = "70/150",
+          [4] = "50%",
+          [5] = "70 (50%)",
+          [6] = "70/140 (50%)",
+          [7] = "empty",
+     },
+     values = {
+          [1] = METAHUD_TEXT_EMPTY,
+          [2] = METAHUD_TEXT_MP2,
+          [3] = METAHUD_TEXT_MP3,
+          [4] = METAHUD_TEXT_MP4,
+          [5] = METAHUD_TEXT_MP5,
+          [6] = METAHUD_TEXT_MP6,
+          [7] = METAHUD_TEXT_EMPTY,
+     }
 };
 MetaHudO_SELECTION["MetaHud_TargetHealth_Text"] = { 
-    ttt   = "Ready to use Text Templates", 
-    table = {
-        [1] = "User defined Text",
-        [2] = "70",
-        [3] = "70/150",
-        [4] = "50%",
-        [5] = "70 (50%)",
-        [6] = "70/140 (50%)",
-        [7] = "empty",
-    },
-    values = {
-        [1] = METAHUD_TEXT_EMPTY,
-        [2] = METAHUD_TEXT_HP2,
-        [3] = METAHUD_TEXT_HP3,
-        [4] = METAHUD_TEXT_HP4,
-        [5] = METAHUD_TEXT_HP5,
-        [6] = METAHUD_TEXT_HP6,
-        [7] = METAHUD_TEXT_EMPTY,
-    }
+     ttt   = "Ready to use Text Templates", 
+     table = {
+          [1] = "User defined Text",
+          [2] = "70",
+          [3] = "70/150",
+          [4] = "50%",
+          [5] = "70 (50%)",
+          [6] = "70/140 (50%)",
+          [7] = "empty",
+     },
+     values = {
+          [1] = METAHUD_TEXT_EMPTY,
+          [2] = METAHUD_TEXT_HP2,
+          [3] = METAHUD_TEXT_HP3,
+          [4] = METAHUD_TEXT_HP4,
+          [5] = METAHUD_TEXT_HP5,
+          [6] = METAHUD_TEXT_HP6,
+          [7] = METAHUD_TEXT_EMPTY,
+     }
 };
 MetaHudO_SELECTION["MetaHud_TargetMana_Text"] = { 
-    ttt   = "Ready to use Text Templates", 
-    table = {
-        [1] = "User defined Text",
-        [2] = "70",
-        [3] = "70/150",
-        [4] = "50%",
-        [5] = "70 (50%)",
-        [6] = "70/140 (50%)",
-        [7] = "empty",
-    },
-    values = {
-        [1] = METAHUD_TEXT_EMPTY,
-        [2] = METAHUD_TEXT_MP2,
-        [3] = METAHUD_TEXT_MP3,
-        [4] = METAHUD_TEXT_MP4,
-        [5] = METAHUD_TEXT_MP5,
-        [6] = METAHUD_TEXT_MP6,
-        [7] = METAHUD_TEXT_EMPTY,
-    }
+     ttt   = "Ready to use Text Templates", 
+     table = {
+          [1] = "User defined Text",
+          [2] = "70",
+          [3] = "70/150",
+          [4] = "50%",
+          [5] = "70 (50%)",
+          [6] = "70/140 (50%)",
+          [7] = "empty",
+     },
+     values = {
+          [1] = METAHUD_TEXT_EMPTY,
+          [2] = METAHUD_TEXT_MP2,
+          [3] = METAHUD_TEXT_MP3,
+          [4] = METAHUD_TEXT_MP4,
+          [5] = METAHUD_TEXT_MP5,
+          [6] = METAHUD_TEXT_MP6,
+          [7] = METAHUD_TEXT_EMPTY,
+     }
 };
 MetaHudO_SELECTION["MetaHud_PetHealth_Text"] = { 
-    ttt   = "Ready to use Text Templates", 
-    table = {
-        [1] = "User defined Text",
-        [2] = "70",
-        [3] = "70/150",
-        [4] = "50%",
-        [5] = "70 (50%)",
-        [6] = "70/140 (50%)",
-        [7] = "empty",
-    },
-    values = {
-        [1] = METAHUD_TEXT_EMPTY,
-        [2] = METAHUD_TEXT_HP2,
-        [3] = METAHUD_TEXT_HP3,
-        [4] = METAHUD_TEXT_HP4,
-        [5] = METAHUD_TEXT_HP5,
-        [6] = METAHUD_TEXT_HP6,
-        [7] = METAHUD_TEXT_EMPTY,
-    }
+     ttt   = "Ready to use Text Templates", 
+     table = {
+          [1] = "User defined Text",
+          [2] = "70",
+          [3] = "70/150",
+          [4] = "50%",
+          [5] = "70 (50%)",
+          [6] = "70/140 (50%)",
+          [7] = "empty",
+     },
+     values = {
+          [1] = METAHUD_TEXT_EMPTY,
+          [2] = METAHUD_TEXT_HP2,
+          [3] = METAHUD_TEXT_HP3,
+          [4] = METAHUD_TEXT_HP4,
+          [5] = METAHUD_TEXT_HP5,
+          [6] = METAHUD_TEXT_HP6,
+          [7] = METAHUD_TEXT_EMPTY,
+     }
 };
 MetaHudO_SELECTION["MetaHud_PetMana_Text"] = { 
-    ttt   = "Ready to use Text Templates", 
-    table = {
-        [1] = "User defined Text",
-        [2] = "70",
-        [3] = "70/150",
-        [4] = "50%",
-        [5] = "70 (50%)",
-        [6] = "70/140 (50%)",
-        [7] = "70 (Druid)",
-        [8] = "empty",
-    },
-    values = {
-        [1] = METAHUD_TEXT_EMPTY,
-        [2] = METAHUD_TEXT_MP2,
-        [3] = METAHUD_TEXT_MP3,
-        [4] = METAHUD_TEXT_MP4,
-        [5] = METAHUD_TEXT_MP5,
-        [6] = METAHUD_TEXT_MP6,
-        [7] = METAHUD_TEXT_MP7,
-        [8] = METAHUD_TEXT_EMPTY,
-    }
+     ttt   = "Ready to use Text Templates", 
+     table = {
+          [1] = "User defined Text",
+          [2] = "70",
+          [3] = "70/150",
+          [4] = "50%",
+          [5] = "70 (50%)",
+          [6] = "70/140 (50%)",
+          [7] = "70 (Druid)",
+          [8] = "empty",
+     },
+     values = {
+          [1] = METAHUD_TEXT_EMPTY,
+          [2] = METAHUD_TEXT_MP2,
+          [3] = METAHUD_TEXT_MP3,
+          [4] = METAHUD_TEXT_MP4,
+          [5] = METAHUD_TEXT_MP5,
+          [6] = METAHUD_TEXT_MP6,
+          [7] = METAHUD_TEXT_MP7,
+          [8] = METAHUD_TEXT_EMPTY,
+     }
 };
 MetaHudO_SELECTION["MetaHud_Target_Text"] = { 
-    ttt   = "Ready to use Text Templates", 
-    table = {
-        [1] = "User defined Text",
-        [2] = "Long",
-        [3] = "Middle",
-        [4] = "Small",
-        [5] = "empty",
-    },
-    values = {
-        [1] = METAHUD_TEXT_EMPTY,
-        [2] = METAHUD_TEXT_TA1,
-        [3] = METAHUD_TEXT_TA2,
-        [4] = METAHUD_TEXT_TA3,
-        [5] = METAHUD_TEXT_EMPTY,
-    }
+     ttt   = "Ready to use Text Templates", 
+     table = {
+          [1] = "User defined Text",
+          [2] = "Long",
+          [3] = "Middle",
+          [4] = "Small",
+          [5] = "empty",
+     },
+     values = {
+          [1] = METAHUD_TEXT_EMPTY,
+          [2] = METAHUD_TEXT_TA1,
+          [3] = METAHUD_TEXT_TA2,
+          [4] = METAHUD_TEXT_TA3,
+          [5] = METAHUD_TEXT_EMPTY,
+     }
 };
