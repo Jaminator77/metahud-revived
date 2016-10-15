@@ -439,7 +439,7 @@ MetaHud_variables = {
      ["<raidgroup>"] = { 
           func = function(text, unit)
                local value;
-               for i = 1, GetNumRaidMembers() do
+               for i = 1, GetNumGroupMembers() do
                     if (UnitIsUnit("raid"..i, unit)) then
                          _, _, value = GetRaidRosterInfo(i);
                          value = "[grp"..value.." id"..i.."]";
