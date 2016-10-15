@@ -1,7 +1,7 @@
 --- Init Vars --
 METAHUD_NAME = "MetaHud - Revived Branch"
-METAHUD_TOC = 50400;
-METAHUD_VERSION = "v"..METAHUD_TOC.."-9.1";
+METAHUD_TOC = 60000;
+METAHUD_VERSION = "v"..METAHUD_TOC.."-9.2";
 METAHUD_ICON = "Interface\\AddOns\\MetaHud\\Layout\\Icon";
 METAHUD_LAYOUTPATH = "Interface\\AddOns\\MetaHud\\Layout\\";
 BINDING_HEADER_METAHUD = "|cff00FF80"..METAHUD_NAME.."|r";
